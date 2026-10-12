@@ -4,6 +4,7 @@ name: Nouveaux posts Instagram
 # (pull request « Nouveaux restos »). Le lundi, renouvelle aussi la clé Instagram (valable 60 jours).
 # Si la clé ne marche plus (ou ne peut pas être renouvelée), ouvre un ticket « Clé Instagram à renouveler »
 # assigné à la personne indiquée dans la variable ALERT_USER : GitHub le lui envoie par e-mail.
+# La pull request « Nouveaux restos » lui est aussi assignée, pour qu'elle reçoive un e-mail.
 on:
   schedule:
     - cron: '0 18 * * *'  # 20h à Paris en été, 19h en hiver
@@ -92,6 +93,7 @@ jobs:
         if: steps.import.outcome == 'success'
         env:
           GH_TOKEN: ${{ github.token }}
+          ALERT_USER: ${{ vars.ALERT_USER }}
         run: |
           if [ ! -f "$RUNNER_TEMP/pr.md" ]; then echo "Aucun nouveau post."; exit 0; fi
           git config user.name "copains-gourmands-robot"
@@ -104,10 +106,16 @@ jobs:
             echo "Déjà proposé, en attente de validation."; exit 0
           fi
           git push -f origin "$BRANCH"
+          # Assignée à ALERT_USER : GitHub lui envoie un e-mail (sinon personne n'est prévenu).
           if [ "$(gh pr view "$BRANCH" --json state -q .state 2>/dev/null)" = "OPEN" ]; then
             gh pr edit "$BRANCH" --body-file "$RUNNER_TEMP/pr.md"
+            if [ -n "$ALERT_USER" ]; then
+              gh pr edit "$BRANCH" --add-assignee "$ALERT_USER" || true
+              gh pr comment "$BRANCH" --body "📬 Nouveaux posts ajoutés à cette demande : à valider." || true
+            fi
           else
-            gh pr create --head "$BRANCH" --base main --title "🍽️ Nouveaux restos à valider" --body-file "$RUNNER_TEMP/pr.md"
+            ASSIGN=(); [ -n "$ALERT_USER" ] && ASSIGN=(--assignee "$ALERT_USER")
+            gh pr create --head "$BRANCH" --base main --title "🍽️ Nouveaux restos à valider" "${ASSIGN[@]}" --body-file "$RUNNER_TEMP/pr.md"
           fi
 
       - name: Alerte clé Instagram (ticket envoyé par e-mail)
