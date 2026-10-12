@@ -14,10 +14,11 @@ const cuisine = cuisineLabel(r.cuisine, lang);
 const searchText = searchable
   ? [r.name, r.cuisine, cuisine, reviewIn(r, lang), r.address, areaLabel(r, lang)].join(' ').toLowerCase()
   : undefined;
+/** Photos suivantes (miniatures), affichées avec les flèches. */
+const more = r.photos.slice(1).map((p) => url(thumb(p)));
 ---
-<a
+<article
   class="card"
-  href={url(`${lang}/resto/${r.slug}/`)}
   data-search={searchText}
   data-rating={r.rating ?? 0}
   data-area={areaKey(r)}
@@ -26,33 +27,101 @@ const searchText = searchable
   data-date={r.date}
   data-name={r.name.toLowerCase()}
 >
-  <div class="photo">
-    <img src={url(thumb(r.photos[0]))} alt={r.name} width="600" height="600" decoding="async"
-      loading={priority ? 'eager' : 'lazy'} fetchpriority={priority === 'high' ? 'high' : undefined} />
+  <div class="photo" data-photos={more.length ? more.join(',') : undefined}>
+    <div class="track">
+      <img src={url(thumb(r.photos[0]))} alt={r.name} width="600" height="600" decoding="async"
+        loading={priority ? 'eager' : 'lazy'} fetchpriority={priority === 'high' ? 'high' : undefined} />
+    </div>
+    {more.length > 0 && (
+      <>
+        <button type="button" class="arrow prev" aria-label={t(lang, 'gallery.prev')} hidden>‹</button>
+        <button type="button" class="arrow next" aria-label={t(lang, 'gallery.next')}>›</button>
+        <span class="count" aria-hidden="true"><span>1</span> / {r.photos.length}</span>
+      </>
+    )}
     {r.rating != null && <span class="badge" style={`background:${ratingColor(r.rating)}`}>{formatRating(r.rating, lang)}★</span>}
     {rank && <span class="rank">#{rank}</span>}
   </div>
   <div class="body">
-    <h3>{r.name}</h3>
+    <h3><a href={url(`${lang}/resto/${r.slug}/`)}>{r.name}</a></h3>
     <p class="meta">{areaLabel(r, lang)}{cuisine && ` · ${cuisine}`}{r.price && ` · ${r.price}`}</p>
     {r.rating != null && <StarRating rating={r.rating} lang={lang} />}
     {isSponsored(r) && <p class="collab">{t(lang, 'collab.label')}</p>}
   </div>
-</a>
+</article>
+
+<script>
+  // Vignettes : flèches (souris) pour voir les autres photos sans ouvrir la fiche.
+  // Les photos suivantes ne sont chargées qu'au survol, pour garder le catalogue léger.
+  const load = (photo: HTMLElement, upTo: number) => {
+    const track = photo.querySelector('.track')!;
+    const srcs = photo.dataset.photos!.split(',');
+    for (let j = track.children.length; j <= Math.min(upTo, srcs.length); j++) {
+      const img = document.createElement('img');
+      img.src = srcs[j - 1];
+      img.alt = '';
+      img.decoding = 'async';
+      track.append(img);
+    }
+  };
+  document.addEventListener('pointerover', (e) => {
+    const photo = e.target instanceof Element && e.target.closest<HTMLElement>('.card .photo[data-photos]');
+    if (photo) load(photo, 1);
+  });
+  document.addEventListener('click', (e) => {
+    const btn = e.target instanceof Element && e.target.closest<HTMLButtonElement>('.card .arrow');
+    if (!btn) return;
+    const photo = btn.closest<HTMLElement>('.photo')!;
+    const total = photo.dataset.photos!.split(',').length + 1;
+    const i = Math.max(0, Math.min(total - 1, Number(photo.dataset.index ?? 0) + (btn.classList.contains('next') ? 1 : -1)));
+    photo.dataset.index = String(i);
+    load(photo, i + 1);
+    photo.querySelector<HTMLElement>('.track')!.style.transform = `translateX(${-100 * i}%)`;
+    photo.querySelector('.count span')!.textContent = String(i + 1);
+    const [prev, next] = photo.querySelectorAll<HTMLButtonElement>('.arrow');
+    prev.hidden = i === 0;
+    next.hidden = i === total - 1;
+    // Le bouton cliqué disparaît au bout de la série : on garde le focus clavier sur l'autre.
+    if (btn.hidden) (btn === prev ? next : prev).focus();
+  });
+</script>
 
 <style>
   .card {
-    display: flex; flex-direction: column; text-decoration: none; background: var(--paper);
+    position: relative; display: flex; flex-direction: column; background: var(--paper);
     background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
     transition: transform .25s ease, box-shadow .25s ease;
   }
   .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
   /* Masquée par les filtres du catalogue (sinon le display: flex ci-dessus l'emporte). */
   .card[hidden] { display: none; }
+  /* Le lien du nom couvre toute la vignette ; seules les flèches passent par-dessus. */
+  h3 a { text-decoration: none; }
+  h3 a::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: var(--radius); }
+  h3 a:focus-visible { outline: none; }
+  h3 a:focus-visible::after { outline: 2px solid var(--accent-deep); outline-offset: 3px; }
   .collab { margin: 2px 0 0; font-size: .72rem; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; }
   .photo { position: relative; aspect-ratio: 1; overflow: hidden; }
-  .photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
-  .card:hover .photo img { transform: scale(1.05); }
+  .track { display: flex; height: 100%; transition: transform .35s ease, scale .6s ease; }
+  .track :global(img) { flex: 0 0 100%; width: 100%; height: 100%; object-fit: cover; }
+  .card:hover .track { scale: 1.05; }
+  .arrow {
+    position: absolute; z-index: 2; top: 50%; translate: 0 -50%; width: 34px; height: 34px; border-radius: 50%; border: 0;
+    background: rgba(255, 255, 255, .92); color: var(--blue); font-size: 1.5rem; line-height: 1; padding: 0 0 3px; cursor: pointer;
+    box-shadow: 0 3px 10px -3px rgba(0, 0, 0, .45); opacity: 0; transition: opacity .2s, background-color .2s, scale .2s;
+  }
+  .arrow:hover { background: #fff; scale: 1.08; }
+  .arrow[hidden] { display: none; }
+  .prev { left: 10px; }
+  .next { right: 10px; }
+  .count {
+    position: absolute; bottom: 10px; left: 50%; translate: -50% 0; padding: 2px 9px; border-radius: 999px;
+    background: rgba(16, 22, 46, .6); color: #fff; font-size: .75rem; font-weight: 600; font-variant-numeric: tabular-nums;
+    opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .card:hover :is(.arrow, .count), .card:has(:focus-visible) :is(.arrow, .count) { opacity: 1; }
+  /* Au doigt, la vignette ouvre la fiche (qui a sa propre galerie) : pas de flèches. */
+  @media (hover: none) { .arrow, .count { display: none; } }
   .badge {
     position: absolute; top: 10px; right: 10px; font-family: var(--font-display); font-weight: 800;
     font-size: .95rem; padding: 4px 10px; border-radius: 999px; color: var(--ink);
