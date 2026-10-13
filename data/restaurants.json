@@ -2,6 +2,37 @@
   "demo": false,
   "restaurants": [
     {
+      "slug": "nau-gh-tee",
+      "name": "nau(gh)tēe",
+      "address": "22 rue Royer-Collard, 75005 Paris",
+      "city": "Paris",
+      "arrondissement": 5,
+      "other_addresses": [],
+      "lat": 48.846223,
+      "lng": 2.340626,
+      "rating": null,
+      "review": "Si vous passez près du Jardin du Luxembourg, faites une pause dans ce coffee shop pour goûter leur matcha coco cloud🥥 qui vaut vraiment le détour, et leurs pâtisseries : cheesecake basque, cookie matcha chocolat blanc…\n\n~ boissons entre 2,6€ et 8,5€",
+      "review_en": "Si vous passez près du Jardin du Luxembourg, faites une pause dans ce coffee shop pour goûter leur matcha coco cloud🥥 qui vaut vraiment le détour, et leurs pâtisseries : cheesecake basque, cookie matcha chocolat blanc…\n\n~ boissons entre 2,6€ et 8,5€",
+      "cuisine": "Matcha & café",
+      "price": "€",
+      "date": "2026-10-09",
+      "photos": [
+        "photos/nau-gh-tee/0.webp",
+        "photos/nau-gh-tee/1.webp",
+        "photos/nau-gh-tee/2.webp",
+        "photos/nau-gh-tee/3.webp",
+        "photos/nau-gh-tee/4.webp",
+        "photos/nau-gh-tee/5.webp",
+        "photos/nau-gh-tee/6.webp",
+        "photos/nau-gh-tee/7.webp",
+        "photos/nau-gh-tee/8.webp",
+        "photos/nau-gh-tee/9.webp",
+        "photos/nau-gh-tee/10.webp"
+      ],
+      "instagram_url": "https://www.instagram.com/p/DeROWCWEYhJ/",
+      "instagram_handle": "naughtee.cafe"
+    },
+    {
       "slug": "elamu",
       "name": "Elamu",
       "address": "Jalan Pariwisata Pantai Kuta, Kuta, Lombok",
@@ -2591,35 +2622,31 @@
       "instagram_handle": "saladedespiece"
     },
     {
-      "slug": "nau-gh-tee",
-      "name": "nau(gh)tēe",
-      "address": "22 rue Royer-Collard, 75005 Paris",
+      "slug": "d-a-y-z",
+      "name": "D A Y Z",
+      "address": "43 Rue La Fayette 75009, Paris",
       "city": "Paris",
-      "arrondissement": 5,
+      "arrondissement": 9,
       "other_addresses": [],
-      "lat": 48.846223,
-      "lng": 2.340626,
+      "lat": 48.874907,
+      "lng": 2.339817,
       "rating": null,
-      "review": "Si vous passez près du Jardin du Luxembourg, faites une pause dans ce coffee shop pour goûter leur matcha coco cloud🥥 qui vaut vraiment le détour, et leurs pâtisseries : cheesecake basque, cookie matcha chocolat blanc…\n\n~ boissons entre 2,6€ et 8,5€",
-      "review_en": "Si vous passez près du Jardin du Luxembourg, faites une pause dans ce coffee shop pour goûter leur matcha coco cloud🥥 qui vaut vraiment le détour, et leurs pâtisseries : cheesecake basque, cookie matcha chocolat blanc…\n\n~ boissons entre 2,6€ et 8,5€",
-      "cuisine": "Matcha & café",
+      "review": "Parfait pour une pause déjeuner saine !! Des produits français de qualité et des assiettes pensées et travaillées pour avoir de l’énergie toute la journée. On a adoré ce concept transparent, qui permet de savoir ce que l’on mange et de connaître les apports nutritionnels des plats. Vous pouvez vous installer sur place, prendre à emporter ou les retrouver sur Deliveroo.\nGros coup de cœur pour cette adresse, la qualité de leurs assiettes et l’équipe !! 🤍\n\n~ plats : entre 13 € et 14,50 €\n~ desserts : entre 3,50 € et 5 €\n~ boissons : entre 3,50 € et 5,50 €\n~ shakes : entre 8,50 € et 10 €",
+      "review_en": "Parfait pour une pause déjeuner saine !! Des produits français de qualité et des assiettes pensées et travaillées pour avoir de l’énergie toute la journée. On a adoré ce concept transparent, qui permet de savoir ce que l’on mange et de connaître les apports nutritionnels des plats. Vous pouvez vous installer sur place, prendre à emporter ou les retrouver sur Deliveroo.\nGros coup de cœur pour cette adresse, la qualité de leurs assiettes et l’équipe !! 🤍\n\n~ plats : entre 13 € et 14,50 €\n~ desserts : entre 3,50 € et 5 €\n~ boissons : entre 3,50 € et 5,50 €\n~ shakes : entre 8,50 € et 10 €",
+      "cuisine": "Français",
       "price": "€",
-      "date": "2026-10-09",
+      "date": "2026-10-12",
       "photos": [
-        "photos/nau-gh-tee/0.webp",
-        "photos/nau-gh-tee/1.webp",
-        "photos/nau-gh-tee/2.webp",
-        "photos/nau-gh-tee/3.webp",
-        "photos/nau-gh-tee/4.webp",
-        "photos/nau-gh-tee/5.webp",
-        "photos/nau-gh-tee/6.webp",
-        "photos/nau-gh-tee/7.webp",
-        "photos/nau-gh-tee/8.webp",
-        "photos/nau-gh-tee/9.webp",
-        "photos/nau-gh-tee/10.webp"
+        "photos/d-a-y-z/0.webp",
+        "photos/d-a-y-z/1.webp",
+        "photos/d-a-y-z/2.webp",
+        "photos/d-a-y-z/3.webp",
+        "photos/d-a-y-z/4.webp",
+        "photos/d-a-y-z/5.webp",
+        "photos/d-a-y-z/6.webp"
       ],
-      "instagram_url": "https://www.instagram.com/p/DeROWCWEYhJ/",
-      "instagram_handle": "naughtee.cafe"
+      "instagram_url": "https://www.instagram.com/p/DeZLhnCjgHG/",
+      "instagram_handle": "dayz.paris"
     }
   ]
 }
