@@ -548,5 +548,12 @@
   "postcode": "75005",
   "city": "Paris",
   "label": "22 Rue Royer-Collard 75005 Paris"
+ },
+ "ban:43 Rue La Fayette 75009, Paris": {
+  "lat": 48.874907,
+  "lng": 2.339817,
+  "postcode": "75009",
+  "city": "Paris",
+  "label": "43 Rue la Fayette 75009 Paris"
  }
 }
