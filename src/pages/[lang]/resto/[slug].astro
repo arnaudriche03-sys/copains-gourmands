@@ -4,7 +4,7 @@ import StarRating from '../../../components/StarRating.astro';
 import RestaurantCard from '../../../components/RestaurantCard.astro';
 import MapView from '../../../components/MapView.astro';
 import { t, tf, url, colon, LANGS, formatMonth, type Lang } from '../../../lib/i18n';
-import { restaurants, areaLabel, mapPoints, isSponsored, reviewIn, reviewText, cuisineLabel, metaDescription, ogImage, type Restaurant } from '../../../lib/restaurants';
+import { restaurants, areaLabel, addressLabel, mapPoints, isSponsored, reviewIn, reviewText, cuisineLabel, metaDescription, ogImage, type Restaurant } from '../../../lib/restaurants';
 import { SITE } from '../../../lib/site';
 
 export function getStaticPaths() {
@@ -123,11 +123,11 @@ const others = restaurants
           </div>
         )}
 
-        {r.address && <p class="address"><strong>{t(lang, 'resto.address')}{colon(lang)}</strong> {r.address}</p>}
+        {r.address && <p class="address"><strong>{t(lang, 'resto.address')}{colon(lang)}</strong> {addressLabel(r.address, lang)}</p>}
         {others_addresses.length > 0 && (
           <div class="others">
             <p><strong>{t(lang, others_addresses.length > 1 ? 'resto.otherAddresses' : 'resto.otherAddress')}{colon(lang)}</strong></p>
-            <ul>{others_addresses.map((a) => <li>{a}</li>)}</ul>
+            <ul>{others_addresses.map((a) => <li>{addressLabel(a, lang)}</li>)}</ul>
           </div>
         )}
         <div class="actions">

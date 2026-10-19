@@ -40,9 +40,23 @@ export function cityLabel(city: string, lang: Lang): string {
 export function areaLabel(r: Restaurant, lang: Lang): string {
   if (r.arrondissement == null) return cityLabel(r.city, lang);
   const n = r.arrondissement;
-  if (lang === 'fr') return `Paris ${n}${n === 1 ? 'er' : 'e'}`;
-  const suffix = n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th';
-  return `Paris ${n}${suffix}`;
+  return `Paris ${ordinal(n, lang)}`;
+}
+function ordinal(n: number, lang: Lang): string {
+  if (lang === 'fr') return `${n}${n === 1 ? 'er' : 'e'}`;
+  return `${n}${n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th'}`;
+}
+
+/** Adresse telle qu'écrite dans le CSV (en français), adaptée au site anglais :
+ *  « Paris 9e » → « Paris 9th », « Bastille (11e) » → « Bastille (11th) », « Londres : Soho » → « London: Soho ».
+ *  Les noms de rue (« Avenue Pierre 1er de Serbie ») ne sont pas touchés. */
+export function addressLabel(a: string, lang: Lang): string {
+  if (lang === 'fr') return a;
+  return a
+    .replace(/(Paris |\()(\d{1,2})(?:er|e|ème|ᵉ)\b/g, (_, before, n) => `${before}${ordinal(Number(n), lang)}`)
+    .replace(/\bLondres\b/g, 'London')
+    .replace(/\(bientôt\)/g, '(coming soon)')
+    .replace(/ : /g, ': ');
 }
 
 /** Clé de tri : arrondissements dans l'ordre, puis les autres villes. */
