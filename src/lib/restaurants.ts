@@ -32,7 +32,7 @@ export const restaurants: Restaurant[] = [...(data.restaurants as Restaurant[])]
 );
 
 /** Noms de ville du CSV (en anglais) traduits pour le site FR. */
-const CITY_FR: Record<string, string> = { London: 'Londres', 'Mexico City': 'Mexico' };
+const CITY_FR: Record<string, string> = { London: 'Londres', 'Mexico City': 'Mexico', Barcelona: 'Barcelone', Lisbon: 'Lisbonne' };
 export function cityLabel(city: string, lang: Lang): string {
   return lang === 'fr' ? CITY_FR[city] ?? city : city;
 }

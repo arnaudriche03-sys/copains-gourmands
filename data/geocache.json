@@ -567,5 +567,43 @@
  "osm:MADAM Bō, Lisbonne, Paris": null,
  "osm:Compà, Gràcia, Barcelona, Paris": null,
  "osm:Mojju, Paris 7ème, Paris 7e": null,
- "osm:Malasaña, Madrid": null
+ "osm:Malasaña, Madrid": null,
+ "osmaddr:Calle del Espíritu Santo 38, 28004 Madrid": {
+  "lat": 40.425586,
+  "lng": -3.7048767,
+  "postcode": "28004",
+  "city": "Madrid",
+  "label": "38 Calle del Espíritu Santo, 28004 Madrid"
+ },
+ "ban:4 rue de l'Exposition, 75007 Paris": {
+  "lat": 48.858154,
+  "lng": 2.302544,
+  "postcode": "75007",
+  "city": "Paris",
+  "label": "4 Rue de l'Exposition 75007 Paris"
+ },
+ "ban:Carrer de la Providència 121, 08024 Barcelona": null,
+ "osmaddr:Carrer de la Providència 121, 08024 Barcelona": {
+  "lat": 41.4094219,
+  "lng": 2.1617777,
+  "postcode": "08024",
+  "city": "Barcelona",
+  "label": "121 Carrer de la Providència, 08024 Barcelona"
+ },
+ "ban:Carrer de Vallfogona 12, 08012 Barcelona": null,
+ "osmaddr:Carrer de Vallfogona 12, 08012 Barcelona": {
+  "lat": 41.4028885,
+  "lng": 2.1572473,
+  "postcode": "08012",
+  "city": "Barcelona",
+  "label": "12 Carrer de Vallfogona, 08012 Barcelona"
+ },
+ "ban:Rua Maestro Pedro de Freitas Branco 26B, 1250-158 Lisboa": null,
+ "osmaddr:Rua Maestro Pedro de Freitas Branco 26B, 1250-158 Lisboa, Lisbon": {
+  "lat": 38.7181648,
+  "lng": -9.153225,
+  "postcode": "1250-100",
+  "city": "Lisboa",
+  "label": "Rua Maestro Pedro de Freitas Branco, 1250-100 Lisboa"
+ }
 }
