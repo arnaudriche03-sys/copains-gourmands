@@ -2,16 +2,14 @@
 import Base from '../../layouts/Base.astro';
 import MapView from '../../components/MapView.astro';
 import { t, tf, langPaths, type Lang } from '../../lib/i18n';
-import { mapPoints, cityGroups, cityLabel, topCities, restaurants, HAS_RATINGS, FAMILIES } from '../../lib/restaurants';
+import { mapPoints, cityGroups, cityLabel, topCities, restaurants, HAS_RATINGS, familyCounts } from '../../lib/restaurants';
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 const points = mapPoints(lang);
 const cities = cityGroups();
 // Familles de cuisine présentes sur la carte, avec leur nombre (« Autres » en dernier).
-const families = [...FAMILIES, { id: 'autres', emoji: '🍴', fr: 'Autres', en: 'Other' }]
-  .map((f) => ({ ...f, count: points.filter((p) => p.family === f.id).length }))
-  .filter((f) => f.count > 0);
+const families = familyCounts(points);
 const legend = [
   { c: '#F0D58C', l: '4,5 – 5' },
   { c: '#A9D3B4', l: '4' },

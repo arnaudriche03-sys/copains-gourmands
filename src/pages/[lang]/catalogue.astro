@@ -2,15 +2,14 @@
 import Base from '../../layouts/Base.astro';
 import RestaurantCard from '../../components/RestaurantCard.astro';
 import { t, tf, langPaths, type Lang } from '../../lib/i18n';
-import { restaurants, areaKey, areaLabel, cuisineLabel, topCities, HAS_RATINGS } from '../../lib/restaurants';
+import { restaurants, areaKey, areaLabel, topCities, HAS_RATINGS, familyOf, familyCounts } from '../../lib/restaurants';
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
 
 const areas = [...new Map(restaurants.map((r) => [areaKey(r), areaLabel(r, lang)])).entries()].sort(([a], [b]) => a.localeCompare(b));
-const cuisines = ([...new Set(restaurants.map((r) => r.cuisine).filter(Boolean))] as string[])
-  .map((c) => ({ value: c, label: cuisineLabel(c, lang) }))
-  .sort((a, b) => a.label.localeCompare(b.label, lang));
+// Filtre « Cuisine » : grandes familles (Asiatique regroupe japonais, chinois, thaï…), comme sur la carte.
+const families = familyCounts(restaurants.map((r) => ({ family: familyOf(r.cuisine) })));
 const prices = ['€', '€€', '€€€', '€€€€'].filter((p) => restaurants.some((r) => r.price === p));
 const all = t(lang, 'filters.all');
 ---
@@ -49,7 +48,7 @@ const all = t(lang, 'filters.all');
         <label><span>{t(lang, 'filters.cuisine')}</span>
           <select name="cuisine">
             <option value="">{all}</option>
-            {cuisines.map((c) => <option value={c.value}>{c.label}</option>)}
+            {families.map((f) => <option value={f.id}>{f.emoji} {f[lang]} ({f.count})</option>)}
           </select>
         </label>
         <label><span>{t(lang, 'filters.price')}</span>
@@ -111,7 +110,7 @@ const all = t(lang, 'filters.all');
           (!q || norm(d.search!).includes(q)) &&
           Number(d.rating) >= minRating &&
           (!area || d.area === area) &&
-          (!cuisine || d.cuisine === cuisine) &&
+          (!cuisine || d.family === cuisine) &&
           (!price || d.price === price);
         c.hidden = !ok;
         if (ok) shown++;

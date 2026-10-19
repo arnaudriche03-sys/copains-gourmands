@@ -1,6 +1,6 @@
 ---
 import StarRating from './StarRating.astro';
-import { areaLabel, areaKey, ratingColor, formatRating, thumb, isSponsored, reviewIn, cuisineLabel, type Restaurant } from '../lib/restaurants';
+import { areaLabel, areaKey, ratingColor, formatRating, thumb, isSponsored, reviewIn, cuisineLabel, familyOf, type Restaurant } from '../lib/restaurants';
 import { url, t, type Lang } from '../lib/i18n';
 interface Props {
   r: Restaurant; lang: Lang; rank?: number;
@@ -22,7 +22,7 @@ const more = r.photos.slice(1).map((p) => url(thumb(p)));
   data-search={searchText}
   data-rating={r.rating ?? 0}
   data-area={areaKey(r)}
-  data-cuisine={r.cuisine ?? ''}
+  data-family={familyOf(r.cuisine)}
   data-price={r.price ?? ''}
   data-date={r.date}
   data-name={r.name.toLowerCase()}

@@ -143,17 +143,24 @@ export function cuisineEmoji(cuisine: string | null): string {
   return (cuisine && CUISINE_EMOJI[cuisine]) || '🍴';
 }
 
-/** Grandes familles pour filtrer la carte (une cuisine absente d'ici tombe dans « Autres »). */
+/** Grandes familles pour les filtres de la carte et du catalogue (une cuisine absente d'ici tombe dans « Autres »).
+ *  Volontairement peu nombreuses : la cuisine précise reste affichée sur chaque fiche. */
 export const FAMILIES: { id: string; emoji: string; fr: string; en: string; cuisines: string[] }[] = [
-  { id: 'cafe', emoji: '☕', fr: 'Café & matcha', en: 'Coffee & matcha', cuisines: ['Matcha & café', 'Boulangerie', 'Pâtisserie'] },
-  { id: 'brunch', emoji: '🥞', fr: 'Brunch', en: 'Brunch', cuisines: ['Brunch', 'Healthy'] },
+  { id: 'cafe', emoji: '☕', fr: 'Café & boulangerie', en: 'Coffee & bakery', cuisines: ['Matcha & café', 'Boulangerie', 'Pâtisserie'] },
+  { id: 'brunch', emoji: '🥞', fr: 'Brunch & healthy', en: 'Brunch & healthy', cuisines: ['Brunch', 'Healthy', 'Végétarien'] },
+  { id: 'francais', emoji: '🍽️', fr: 'Français', en: 'French', cuisines: ['Français', 'Brasserie', 'Bistrot', 'Gastronomique', 'Viande'] },
   { id: 'italien', emoji: '🍝', fr: 'Italien', en: 'Italian', cuisines: ['Italien'] },
-  { id: 'francais', emoji: '🍽️', fr: 'Français', en: 'French', cuisines: ['Français', 'Brasserie', 'Bistrot', 'Gastronomique'] },
   { id: 'asiatique', emoji: '🥢', fr: 'Asiatique', en: 'Asian', cuisines: ['Japonais', 'Chinois', 'Thaï', 'Taïwanais', 'Asiatique', 'Indien', 'Coréen', 'Vietnamien'] },
-  { id: 'medit', emoji: '🧆', fr: 'Méditerranéen', en: 'Mediterranean', cuisines: ['Méditerranéen', 'Libanais', 'Turc', 'Israélien', 'Grec'] },
-  { id: 'latino', emoji: '🌮', fr: 'Latino', en: 'Latin', cuisines: ['Mexicain', 'Sud-américain', 'Péruvien'] },
+  { id: 'monde', emoji: '🌍', fr: 'Cuisines du monde', en: 'World food', cuisines: ['Méditerranéen', 'Libanais', 'Turc', 'Israélien', 'Grec', 'Mexicain', 'Sud-américain', 'Péruvien'] },
   { id: 'bars', emoji: '🍸', fr: 'Bars & tapas', en: 'Bars & tapas', cuisines: ['Bar à vin', 'Bar à cocktails', 'Beach club', 'Tapas'] },
+  { id: 'pouce', emoji: '🍔', fr: 'Sur le pouce', en: 'Quick bites', cuisines: ['Burger', 'Street food', 'Food market'] },
 ];
+/** Familles présentes parmi ces restos, avec leur nombre (« Autres » en dernier). */
+export function familyCounts(list: { family: string }[]) {
+  return [...FAMILIES, { id: 'autres', emoji: '🍴', fr: 'Autres', en: 'Other', cuisines: [] }]
+    .map((f) => ({ ...f, count: list.filter((x) => x.family === f.id).length }))
+    .filter((f) => f.count > 0);
+}
 export function familyOf(cuisine: string | null): string {
   return FAMILIES.find((f) => cuisine && f.cuisines.includes(cuisine))?.id ?? 'autres';
 }

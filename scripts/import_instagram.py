@@ -774,6 +774,7 @@ def main():
     rows = read_csv()
     added = updated = 0
     posts = []
+    items = []
     if args.api:
         token = os.environ.get("IG_TOKEN") or sys.exit("Variable IG_TOKEN absente : clé d'accès Instagram manquante.")
         posts, items = load_posts_api(token, set(filter(None, args.ignore_ids.split(","))))
@@ -813,6 +814,14 @@ def main():
         print(f"   - {r['nom']}: {r['statut']}")
     if len(flagged) > 15:
         print(f"   … et {len(flagged) - 15} autres")
+    if items:
+        # Posts du compte qu'aucune ligne du CSV ne relie (vidéos, posts absents de l'export, fusions…).
+        known = {r["lien_instagram"] for r in rows.values()}
+        absent = sorted((it for it in items if it.get("permalink") not in known), key=lambda it: it["timestamp"])
+        print(f"Posts sans fiche     : {len(absent)} sur {len(items)}")
+        for it in absent:
+            first = (it.get("caption") or "(sans légende)").strip().splitlines()[0][:60]
+            print(f"   - {it['timestamp'][:10]} {it.get('media_type', '?'):<14} {it.get('permalink', '')}  {first}")
 
 
 if __name__ == "__main__":
