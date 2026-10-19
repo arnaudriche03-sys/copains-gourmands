@@ -672,9 +672,10 @@ def write_json(rows: dict[str, dict]) -> int:
 
 # ---------- API Instagram (robot GitHub) ----------
 
-def load_posts_api(token: str, ignore: set[str]) -> tuple[list[dict], list[dict]]:
+def load_posts_api(token: str, ignore: set[str], catch_up: set[str] = frozenset()) -> tuple[list[dict], list[dict]]:
     """Tous les posts du compte via l'API Instagram. Renvoie (nouveaux posts, tous les posts).
-    Nouveau = publié après la date enregistrée dans data/instagram_state.json et pas refusé."""
+    Nouveau = publié après la date enregistrée dans data/instagram_state.json et pas refusé,
+    ou ancien post demandé en rattrapage (code du lien instagram.com/p/<code>/)."""
     state = json.loads(API_STATE_PATH.read_text()) if API_STATE_PATH.exists() else {}
     since = state.get("last_timestamp", "")
     fields = "id,caption,media_type,media_url,permalink,timestamp,children{id,media_type,media_url}"
@@ -695,7 +696,8 @@ def load_posts_api(token: str, ignore: set[str]) -> tuple[list[dict], list[dict]
     API_CACHE.mkdir(parents=True, exist_ok=True)
     new = []
     for it in items:
-        if it["timestamp"] <= since or it["id"] in ignore:
+        code = it.get("permalink", "").rstrip("/").rsplit("/", 1)[-1]
+        if (it["timestamp"] <= since and code not in catch_up) or it["id"] in ignore:
             continue
         media = it.get("children", {}).get("data") or [it]
         images = []
@@ -768,6 +770,7 @@ def main():
     ap.add_argument("--csv-only", action="store_true", help="ne pas relire l'export, juste CSV → JSON")
     ap.add_argument("--api", action="store_true", help="nouveaux posts via l'API Instagram (variable IG_TOKEN)")
     ap.add_argument("--ignore-ids", default="", help="posts refusés (identifiants séparés par des virgules)")
+    ap.add_argument("--rattrapage", default="", help="anciens posts à proposer quand même (codes des liens instagram.com/p/<code>/, séparés par des virgules)")
     ap.add_argument("--summary", help="fichier où écrire le résumé des nouveautés (pour la pull request)")
     args = ap.parse_args()
 
@@ -777,7 +780,8 @@ def main():
     items = []
     if args.api:
         token = os.environ.get("IG_TOKEN") or sys.exit("Variable IG_TOKEN absente : clé d'accès Instagram manquante.")
-        posts, items = load_posts_api(token, set(filter(None, args.ignore_ids.split(","))))
+        posts, items = load_posts_api(token, set(filter(None, args.ignore_ids.split(","))),
+                                      {c.strip() for c in args.rattrapage.split(",") if c.strip()})
         before = set(rows)
         added, updated = merge_export(rows, posts, API_CACHE)
         sync_photos(rows, API_CACHE)

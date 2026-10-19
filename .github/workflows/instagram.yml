@@ -14,6 +14,10 @@ on:
         description: "Envoyer un ticket d'alerte de test (pour vérifier la réception de l'e-mail)"
         type: boolean
         default: false
+      rattrapage:
+        description: "Anciens posts à proposer quand même : codes des liens instagram.com/p/<code>/, séparés par des virgules"
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -79,13 +83,14 @@ jobs:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
           GH_TOKEN: ${{ github.token }}
           ROBOT_BRANCH: ${{ env.BRANCH }}
+          RATTRAPAGE: ${{ inputs.rattrapage }}
         run: |
           pip install --quiet pillow
           # Posts refusés = ceux des pull requests fermées sans validation.
           IGNORE=$(gh pr list --state closed --head "$BRANCH" --limit 100 --json body,mergedAt \
             --jq '.[] | select(.mergedAt == null) | .body' | grep -o 'ids: [0-9,]*' | cut -d' ' -f2 | paste -sd, -)
           CODE=0
-          python scripts/import_instagram.py --api --ignore-ids "$IGNORE" --summary "$RUNNER_TEMP/pr.md" || CODE=$?
+          python scripts/import_instagram.py --api --ignore-ids "$IGNORE" --rattrapage "$RATTRAPAGE" --summary "$RUNNER_TEMP/pr.md" || CODE=$?
           if [ "$CODE" = 3 ]; then echo "problem=expiree" >> "$GITHUB_OUTPUT"; exit 0; fi
           exit "$CODE"
 
