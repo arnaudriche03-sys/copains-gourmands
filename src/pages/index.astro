@@ -9,8 +9,8 @@ import { SITE, siteSchema } from '../lib/site';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const abs = (p: string) => new URL(url(p), Astro.site).href;
 const image = ogImage('fr');
-const title = 'Copains Gourmands – Nos adresses préférées à Paris et ailleurs';
-const description = 'Nos adresses préférées. Paris, et parfois ailleurs. · Our favourite spots in Paris and beyond.';
+const title = 'Copains Gourmands – Les bonnes adresses des copains, à Paris et ailleurs';
+const description = 'Les bonnes adresses des copains, à Paris et ailleurs. · The copains\' favourite spots in Paris and beyond.';
 const schema = { '@context': 'https://schema.org', '@graph': siteSchema(abs) };
 ---
 <!doctype html>

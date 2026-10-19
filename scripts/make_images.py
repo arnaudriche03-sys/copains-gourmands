@@ -20,11 +20,12 @@ BLUE, BLUE_DEEP, BLUE_LIGHT = (2, 35, 125), (1, 24, 90), (20, 56, 154)
 RED, PAPER, ROSE = (172, 18, 17), (251, 249, 244), (248, 230, 228)
 
 # Mêmes libellés que le site (src/lib/restaurants.ts).
-CITY = {"fr": {"London": "Londres", "Mexico City": "Mexico"}, "en": {}}
-TEXT = {
-    "fr": {"tagline": "Nos adresses préférées.\nParis, et parfois ailleurs.", "count": "{n} adresses testées"},
-    "en": {"tagline": "Our favourite spots.\nParis, and sometimes elsewhere.", "count": "{n} places tried"},
-}
+CITY = {"fr": {"London": "Londres", "Mexico City": "Mexico", "Barcelona": "Barcelone", "Lisbon": "Lisbonne"}, "en": {}}
+
+
+def tagline(lang: str) -> str:
+    """Accroche de l'accueil = titre de la page d'accueil (src/i18n/<lang>.json, « hero.title »)."""
+    return json.loads((ROOT / "src" / "i18n" / f"{lang}.json").read_text(encoding="utf-8"))["hero.title"]
 
 
 def font(size: int, weight: int = 800) -> ImageFont.FreeTypeFont:
@@ -158,9 +159,10 @@ def default_card(restos: list[dict], lang: str) -> Image.Image:
     d.text((70, 240), "Copains", font=title, fill="white")
     d.text((70, 330), "Gourmands", font=title, fill="white")
     y = 450
-    for line in TEXT[lang]["tagline"].split("\n"):
-        d.text((72, y), line, font=font(32, 500), fill=ROSE)
-        y += 42
+    f = font(38, 600)
+    for line in wrap(tagline(lang), f, 600):
+        d.text((72, y), line, font=f, fill=ROSE)
+        y += 50
     return img.convert("RGB")
 
 
