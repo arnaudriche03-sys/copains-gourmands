@@ -555,5 +555,17 @@
   "postcode": "75009",
   "city": "Paris",
   "label": "43 Rue la Fayette 75009 Paris"
- }
+ },
+ "osm:Amazónico, Madrid (Salamanca), Madrid": {
+  "lat": 40.4237074,
+  "lng": -3.6851375,
+  "postcode": "28001",
+  "city": "Madrid",
+  "label": "20 Calle de Jorge Juan, 28001 Madrid"
+ },
+ "osm:Bocanariz Wine Bar, Barcelona (Gràcia), Paris": null,
+ "osm:MADAM Bō, Lisbonne, Paris": null,
+ "osm:Compà, Gràcia, Barcelona, Paris": null,
+ "osm:Mojju, Paris 7ème, Paris 7e": null,
+ "osm:Malasaña, Madrid": null
 }
