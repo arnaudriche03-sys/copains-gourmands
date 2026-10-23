@@ -605,5 +605,12 @@
   "postcode": "1250-100",
   "city": "Lisboa",
   "label": "Rua Maestro Pedro de Freitas Branco, 1250-100 Lisboa"
+ },
+ "ban:11 rue de l’Odéon, 75006 Paris": {
+  "lat": 48.850911,
+  "lng": 2.338799,
+  "postcode": "75006",
+  "city": "Paris",
+  "label": "11 Rue de l'Odéon 75006 Paris"
  }
 }
