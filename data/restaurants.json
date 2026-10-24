@@ -2803,6 +2803,33 @@
       ],
       "instagram_url": "https://www.instagram.com/p/DDpqjYeu7tF/",
       "instagram_handle": null
+    },
+    {
+      "slug": "nino",
+      "name": "nino",
+      "address": "11 rue de l’Odéon, 75006 Paris",
+      "city": "Paris",
+      "arrondissement": 6,
+      "other_addresses": [],
+      "lat": 48.850911,
+      "lng": 2.338799,
+      "rating": null,
+      "review": "Tout près du jardin du Luxembourg, cette adresse italienne propose de très bons sandwichs dans un pain typique de la région des Pouilles. Une adresse qui fait aussi coffee shop, avec de très bons matchas, lattes, thés glacés… et surtout, de délicieux cookies et tiramisus maison !!\n\n~ sandwichs entre 5€ et 11,50€\n~ desserts entre 3€ et 4,5€\n~ boissons entre 2,5€ et 6€\n\n*invitation",
+      "review_en": "Tout près du jardin du Luxembourg, cette adresse italienne propose de très bons sandwichs dans un pain typique de la région des Pouilles. Une adresse qui fait aussi coffee shop, avec de très bons matchas, lattes, thés glacés… et surtout, de délicieux cookies et tiramisus maison !!\n\n~ sandwichs entre 5€ et 11,50€\n~ desserts entre 3€ et 4,5€\n~ boissons entre 2,5€ et 6€\n\n*invitation",
+      "cuisine": "Italien",
+      "price": "€",
+      "date": "2026-10-23",
+      "photos": [
+        "photos/nino/0.webp",
+        "photos/nino/1.webp",
+        "photos/nino/2.webp",
+        "photos/nino/3.webp",
+        "photos/nino/4.webp",
+        "photos/nino/5.webp",
+        "photos/nino/6.webp"
+      ],
+      "instagram_url": "https://www.instagram.com/p/De11IO9FyOB/",
+      "instagram_handle": "ninosandwichs"
     }
   ]
 }
